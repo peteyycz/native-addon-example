@@ -3,36 +3,34 @@
 const int maxValue = 10;
 int numberOfCalls = 0;
 
-void WhoAmI(const Nan::FunctionCallbackInfo<v8::Value>& args) {
+NAN_METHOD(WhoAmI) {
   auto message = Nan::New<v8::String>("I'm a Node Hero!").ToLocalChecked();
-  args.GetReturnValue().Set(message);
+  info.GetReturnValue().Set(message);
 }
 
-void Increment(const Nan::FunctionCallbackInfo<v8::Value>& args) {
-  if (!args[0]->IsNumber()) {
+NAN_METHOD(Increment) {
+  if (!info[0]->IsNumber()) {
     Nan::ThrowError("Argument must be a number");
     return;
   }
 
-  double argsValue = args[0]->NumberValue();
-  if (numberOfCalls + argsValue > maxValue) {
-    Nan::ThrowError("Over the roof!");
+  double infoValue = info[0]->NumberValue();
+  if (numberOfCalls + infoValue > maxValue) {
+    Nan::ThrowError("Counter went through the roof!");
     return;
   }
 
-  numberOfCalls += argsValue;
+  numberOfCalls += infoValue;
 
   auto currentNumberOfCalls =
     Nan::New<v8::Number>(numberOfCalls);
 
-  args.GetReturnValue().Set(currentNumberOfCalls);
+  info.GetReturnValue().Set(currentNumberOfCalls);
 }
 
-void Initialize(v8::Local<v8::Object> exports) {
-  exports->Set(Nan::New("whoami").ToLocalChecked(),
-      Nan::New<v8::FunctionTemplate>(WhoAmI)->GetFunction());
-  exports->Set(Nan::New("increment").ToLocalChecked(),
-      Nan::New<v8::FunctionTemplate>(Increment)->GetFunction());
+NAN_MODULE_INIT(Initialize) {
+  NAN_EXPORT(target, WhoAmI);
+  NAN_EXPORT(target, Increment);
 }
 
 NODE_MODULE(addon, Initialize)
