@@ -14,7 +14,7 @@ NAN_METHOD(Increment) {
     return;
   }
 
-  double infoValue = info[0]->NumberValue();
+  int infoValue = info[0]->NumberValue();
   if (numberOfCalls + infoValue > maxValue) {
     Nan::ThrowError("Counter went through the roof!");
     return;
