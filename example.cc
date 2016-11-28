@@ -18,7 +18,7 @@ void Increment(const v8::FunctionCallbackInfo<v8::Value>& args) {
     return;
   }
 
-  double argsValue = args[0]->NumberValue();
+  int argsValue = args[0]->NumberValue();
   if (numberOfCalls + argsValue > maxValue) {
     isolate->ThrowException(v8::Exception::Error(
           v8::String::NewFromUtf8(isolate, "Counter went through the roof!")));
