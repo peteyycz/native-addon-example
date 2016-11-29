@@ -3,6 +3,10 @@
 const int maxValue = 10;
 int numberOfCalls = 0;
 
+// CPP 14 feature :)
+// based on: https://en.wikipedia.org/wiki/C%2B%2B14
+auto lambda = [](auto x, auto y) {return x + y;};
+
 NAN_METHOD(WhoAmI) {
   auto message = Nan::New<v8::String>("I'm a Node Hero!").ToLocalChecked();
   info.GetReturnValue().Set(message);
